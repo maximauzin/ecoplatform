@@ -1,0 +1,43 @@
+.header {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(12, 58, 21, 1);
+    display: flex;
+    padding-left: 73px;
+    padding-right: 156px;
+    color: #ffebbb;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 67px;
+}
+
+.logo {
+    margin: 0;
+    padding: 0;
+    font-family: "El Messiri", sans-serif;
+    font-size: 32px;
+    padding: 5px 0px;
+    font-weight: 700;
+}
+
+.navigation {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 29px;
+    align-items: center;
+}
+
+.navigation-item {
+    list-style: none;
+    font-size: 20px;
+}
+
+.navigation-item a {
+    text-decoration: none;
+    color: #ffebbb;
+}
+
+.personal-account {
+    margin-left: 70px;
+}
