@@ -25,11 +25,11 @@ export default function Authorization() {
                     <h1>SecondBloom</h1>
                     <form>
                         <h2>Вход/регистрация</h2>
-                        <div class="input">
+                        <div className="input">
                             <input type="text" placeholder="Логин" />
                             <input type="password" placeholder="Пароль" />
-                            <button type="submit">Вход</button>
-                            <p class="logIn">Еще нет аккаунта? <Link to='/signin'>Зарегистрироваться</Link></p>
+                            <button type="submit">Регистрация</button>
+                            <p class="logIn">Уже есть аккаунт? <Link to='/login'>Войти</Link></p>
                         </div>
                     </form>
                 </div>
