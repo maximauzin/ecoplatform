@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import accountImg from '../assets/account.png';
+import accountImg from '../../assets/account.png';
 import './Header.css';
 
 export default function Header() {
@@ -15,7 +15,7 @@ export default function Header() {
                         <Link to="/QA">FAQ</Link>
                     </li>
                     <li className="navigation-item">
-                        <Link className="personal-account" to="/resonalAccount">
+                        <Link className="personal-account" to="/personalAccount">
                             <img src={accountImg} alt="Личный кабинет" />
                         </Link>
                     </li>

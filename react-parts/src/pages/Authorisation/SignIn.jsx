@@ -1,26 +1,14 @@
 import { Link } from 'react-router-dom';
-import {useState} from 'react';
-import Header from '../../components/Header';
-import arrowLeft from '../../assets/arrowLeft.png';
-import arrowLeftCream from '../../assets/arrowLeftCream.png';
+import Header from '../../components/Header/Header';
 import './Authorization.css';
+import BackLink from '../../components/BackLink/BackLink';
 
 export default function Authorization() {
-    const [isHovered, setHovered] = useState(false);
-
     return (
         <>
         <Header />
         <section className="main">
-                <p>
-                    <Link 
-                    className="back" to='/'
-                    onMouseEnter={() => {setHovered(true)}}
-                    onMouseLeave={() => {setHovered(false)}}>
-                            <img 
-                            className="back-img" 
-                            src={isHovered ? arrowLeftCream : arrowLeft} 
-                            alt="стрелка назад" /> Назад</Link></p>
+                <BackLink />
                 <div className="form">
                     <h1>SecondBloom</h1>
                     <form>
@@ -29,7 +17,7 @@ export default function Authorization() {
                             <input type="text" placeholder="Логин" />
                             <input type="password" placeholder="Пароль" />
                             <button type="submit">Регистрация</button>
-                            <p class="logIn">Уже есть аккаунт? <Link to='/login'>Войти</Link></p>
+                            <p className="logIn">Уже есть аккаунт? <Link to='/login'>Войти</Link></p>
                         </div>
                     </form>
                 </div>
