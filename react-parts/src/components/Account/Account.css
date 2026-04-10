@@ -1,0 +1,43 @@
+.avatar {
+    display: flex;
+    margin-bottom: 69px;
+}
+
+.avatar img {
+    margin-right: 19px;
+}
+
+.name {
+    font-size: 32px;
+    font-weight: 500;
+    margin-top: 55px;
+    margin-right: 420px;
+}
+
+.avatar p {
+    margin-top: 55px;
+}
+
+.exit {
+    color: rgba(84, 16, 15, 1);
+    border: solid 2px rgba(84, 16, 15, 1);
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.exit:hover {
+    background-color: rgba(84, 16, 15, 1);
+    color: #ffebbb;
+}
+
+.add {
+    background-color: rgba(115, 127, 53, 1);
+    color: #ffebbb;
+    font-size: 36px;
+    font-weight: 500;
+    padding: 10px 350px;
+    margin-left: 120px;
+    text-decoration: none;
+}
