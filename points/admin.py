@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.gis.admin import GISModelAdmin
 
 from points.models import PointWasteCategory, Price, RecyclePoint
 
@@ -15,7 +14,7 @@ class PriceInline(admin.TabularInline):
 
 
 @admin.register(RecyclePoint)
-class RecyclePointAdmin(GISModelAdmin):
+class RecyclePointAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'address', 'owner', 'average_rating',
         'reviews_count', 'is_active', 'updated_at',
