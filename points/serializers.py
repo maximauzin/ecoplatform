@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from accounts.serializers import UserShortSerializer
 from points.models import Price, RecyclePoint
+from waste_catalog.models import WasteCategory
 from waste_catalog.serializers import WasteCategoryListSerializer
 
 
@@ -26,14 +26,12 @@ class RecyclePointListSerializer(serializers.ModelSerializer):
     waste_categories = serializers.PrimaryKeyRelatedField(
         many=True, read_only=True,
     )
-    distance = serializers.FloatField(read_only=True, required=False)
 
     class Meta:
         model = RecyclePoint
         fields = (
-            'id', 'name', 'address', 'location',
-            'average_rating', 'reviews_count',
-            'waste_categories', 'distance',
+            'id', 'name', 'address', 'latitude', 'longitude',
+            'average_rating', 'reviews_count', 'waste_categories',
         )
 
 
@@ -48,7 +46,7 @@ class RecyclePointDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecyclePoint
         fields = (
-            'id', 'name', 'address', 'location',
+            'id', 'name', 'address', 'latitude', 'longitude',
             'phone', 'email', 'website', 'schedule', 'description',
             'photo', 'owner', 'waste_categories_detail', 'prices',
             'average_rating', 'reviews_count',
@@ -66,13 +64,13 @@ class RecyclePointDetailSerializer(serializers.ModelSerializer):
 class RecyclePointCreateSerializer(serializers.ModelSerializer):
     waste_categories = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=__import__('waste_catalog.models', fromlist=['WasteCategory']).WasteCategory.objects.all(),
+        queryset=WasteCategory.objects.all(),
     )
 
     class Meta:
         model = RecyclePoint
         fields = (
-            'id', 'name', 'address', 'location',
+            'id', 'name', 'address', 'latitude', 'longitude',
             'phone', 'email', 'website', 'schedule', 'description',
             'photo', 'waste_categories',
         )

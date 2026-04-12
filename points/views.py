@@ -1,9 +1,5 @@
-from django.contrib.gis.db.models.functions import Distance
-from django.contrib.gis.geos import Point
-from django.contrib.gis.measure import D
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
 
 from accounts.permissions import IsOwnerRole, IsPointOwner
 from points.filters import RecyclePointFilter
@@ -17,8 +13,8 @@ from points.serializers import (
 
 
 class PointMapPagination(PageNumberPagination):
-    page_size = 50
-    max_page_size = 200
+    page_size = 200
+    max_page_size = 500
 
 
 class RecyclePointViewSet(viewsets.ModelViewSet):
@@ -28,33 +24,9 @@ class RecyclePointViewSet(viewsets.ModelViewSet):
     pagination_class = PointMapPagination
 
     def get_queryset(self):
-        qs = RecyclePoint.objects.filter(is_active=True).select_related(
+        return RecyclePoint.objects.filter(is_active=True).select_related(
             'owner',
         ).prefetch_related('waste_categories', 'prices')
-
-        lat = self.request.query_params.get('lat')
-        lng = self.request.query_params.get('lng')
-        radius = self.request.query_params.get('radius')
-
-        if lat and lng:
-            try:
-                user_location = Point(float(lng), float(lat), srid=4326)
-            except (ValueError, TypeError):
-                return qs
-
-            if radius:
-                try:
-                    qs = qs.filter(
-                        location__dwithin=(user_location, D(m=int(radius)))
-                    )
-                except (ValueError, TypeError):
-                    pass
-
-            qs = qs.annotate(
-                distance=Distance('location', user_location)
-            ).order_by('distance')
-
-        return qs
 
     def get_serializer_class(self):
         if self.action == 'list':
