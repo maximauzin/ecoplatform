@@ -16,16 +16,18 @@ export default function Account() {
     }, []);
 
     return (
-        <section>
+        <section className="account-card">
                 <div className="account">
                     <BackLink />
-                    <div className="avatar">
-                        <img src={avatarImg} alt="Аватар" width="158px" height="158px" />
-                        <h2 className="name">Карина Никитина</h2>
-                        <p><Link className="exit" to="/exit">Выйти</Link></p>
-                    </div> 
+                    <div>
+                        <div className="avatar">
+                            <img src={avatarImg} alt="Аватар" width="158px" height="158px" />
+                            <h2 className="name">Карина Никитина</h2>
+                            <p><Link className="exit" to="/exit">Выйти</Link></p>
+                        </div> 
+                        <p><Link className="add" to="/add">Добавит пункт</Link></p>
+                    </div>
                 </div>
-                <p><Link className="add" to="/add">Добавит пункт</Link></p>
         </section>
     )
 }

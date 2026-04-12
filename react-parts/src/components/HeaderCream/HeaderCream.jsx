@@ -15,7 +15,7 @@ export default function Header() {
                         <Link to="/QA">FAQ</Link>
                     </li>
                     <li className="navigation-item-green">
-                        <Link className="personal-account" to="/resonalAccount">
+                        <Link className="personal-account" to="/personalAccount">
                             <img src={accountGreenImg} alt="Личный кабинет" />
                         </Link>
                     </li>
