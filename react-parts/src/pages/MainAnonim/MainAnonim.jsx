@@ -1,10 +1,9 @@
-import HeaderCream from "../../components/HeaderCream/HeaderCream";
+import HeaderAnonim from '../../components/HeaderAnonim/HeaderAnonim';
 import { useEffect } from "react";
 import { catalogPoints } from "../../utils/utils";
 import { CardItem } from "../../utils/utils";
 import mapPng from '../../assets/map.png';
 import Search from "../../components/Search/Search";
-import './MainMap.css';
 
 export default function MainMap() {
     useEffect (() => {
@@ -19,7 +18,7 @@ export default function MainMap() {
 
     return (
         <>
-        <HeaderCream />
+        <HeaderAnonim />
         <section className="main-page">
             <img src={mapPng} width="864px" height="303px"/>
             <Search />

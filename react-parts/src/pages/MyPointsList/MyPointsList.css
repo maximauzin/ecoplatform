@@ -119,3 +119,27 @@ h3 {
 .more p {
     margin:0;
 }
+
+.delete {
+    background-color: transparent;
+}
+
+.card-edit {
+    margin-top: 140px;
+}
+
+.card-edit a {
+    border: solid 2px rgba(84, 16, 15, 1);
+    padding: 5px;
+    text-decoration: none;
+    color:rgba(84, 16, 15, 1);
+    font-size: 24px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.card-edit a:hover {
+    background-color: rgba(84, 16, 15, 1);
+    border: solid 2px rgba(255, 235, 187, 1);
+    color:rgba(255, 235, 187, 1);
+}
