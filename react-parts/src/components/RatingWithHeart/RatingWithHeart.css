@@ -1,0 +1,70 @@
+.rating-with-heart {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Контейнер звёзд */
+.stars-container {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.star-filled {
+  fill: #F4E2B6; /* Светло-жёлтый/кремовый цвет */
+}
+
+.star-empty {
+  fill: #E0E0E0; /* Светло-серый для пустых звёзд */
+}
+
+/* Число рейтинга */
+.rating-score {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Кнопка-сердечко */
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.heart-button:hover {
+  transform: scale(1.15);
+}
+
+.heart-icon {
+  width: 28px;
+  height: 28px;
+  fill: transparent;
+  stroke: #8c9ba5;
+  stroke-width: 2;
+  transition: all 0.2s ease;
+  margin-top: -45px;
+}
+
+.heart-button.heart-active .heart-icon {
+  fill: #5c2a2a; /* Тёмно-бордовый цвет */
+  stroke: #5c2a2a;
+}
+
+.heart-button.heart-active:hover {
+  transform: scale(1.1);
+}
