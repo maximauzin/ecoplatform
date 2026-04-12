@@ -6,7 +6,6 @@ import arrowMore from '../../assets/arrowMore.png';
 import RatingWithHeart from '../RatingWithHeart/RatingWithHeart'; 
 import {useState} from 'react';
 
-
 export default function FavoriteCard() {
 
     const card = catalogPoints.find(p => p.id === 2);

@@ -1,12 +1,13 @@
 import './MyPointsList.css';
 import {Link} from 'react-router-dom';
 import { catalogPoints } from '../../utils/utils';
-import arrowRight from '../../assets/arrowRight.png';
 import arrowMore from '../../assets/arrowMore.png';
 import RatingWithHeart from '../../components/RatingWithHeart/RatingWithHeart'; 
 import {useState, useEffect} from 'react';
 import HeaderCream from '../../components/HeaderCream/HeaderCream';
 import BackLink from '../../components/BackLink/BackLink';
+import deleteImg from '../../assets/delete.png';
+import deleteHover from '../../assets/deleteHover.png';
 
 
 export default function FavoriteCard() {
@@ -27,6 +28,8 @@ export default function FavoriteCard() {
 
     const toggleLike = () => setIsLiked(prev => !prev);
 
+    const [isHovered, setHovered] = useState(false);
+
     return (
         <>
         <HeaderCream />
@@ -34,7 +37,7 @@ export default function FavoriteCard() {
             <BackLink />
             <div className="my-points">
                 <h3>
-                    Moи пункты 
+                    Moи пункты
                 </h3>
 
                 <div className="card">
@@ -75,6 +78,12 @@ export default function FavoriteCard() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="card-edit">
+                <Link to="/cardEdit" >Редактировать</Link>
+                <button className='delete'
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}><img src={isHovered ? deleteHover : deleteImg} /></button>
             </div>
         </section>
         </>

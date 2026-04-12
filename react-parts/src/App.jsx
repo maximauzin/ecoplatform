@@ -4,6 +4,8 @@ import SignIn from './pages/Authorisation/SignIn';
 import PersonalAccount from './pages/PersonalAccount/PersonalAccount';
 import FavoriteList from './pages/FavoriteList/FavoriteList';
 import MyPointsList from './pages/MyPointsList/MyPointsList';
+import MainMap from './pages/MainMap/MainMap';
+import MainAnonim from './pages/MainAnonim/MainAnonim';
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
         <Route path="/personalAccount" element={<PersonalAccount />} />
         <Route path='/favoriteList' element={<FavoriteList />} />
         <Route path='/myPointsList' element={<MyPointsList />} />
+        <Route path='/main' element={<MainMap />} />
+        <Route path='/mainAnonim' element={<MainAnonim />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,48 @@
+.search-container {
+    width: 864px;
+    box-sizing: border-box; /* Чтобы padding не ломал ширину */
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(35, 62, 69, 1); /* Оливковый цвет как на макете */
+    background: #fff;
+    border-radius: 4px; /* Лёгкое скругление, если нужно */
+    margin-bottom: 20px;
+    padding: 15px;
+    height: 67px;
+    font-size: 24px;
+}
+
+.search-input {
+    flex: 1; /* Занимает всё свободное место */
+    border: none;
+    outline: none;
+    margin-top: 15px;
+    padding: 14px 0;
+    background: transparent;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #888;
+    font-size: 24px;
+}
+
+.search-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Отступ между иконками */
+    flex-shrink: 0; /* Запрещаем иконкам сжиматься */
+    margin-top: 30px;
+}
+
+.search-icons img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.search-icons img:hover {
+    opacity: 1;
+}
