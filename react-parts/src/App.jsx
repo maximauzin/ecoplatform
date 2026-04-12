@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Authorization from './pages/Authorisation/Authorization';
 import SignIn from './pages/Authorisation/SignIn';
 import PersonalAccount from './pages/PersonalAccount/PersonalAccount';
+import FavoriteList from './pages/FavoriteList/FavoriteList';
+import MyPointsList from './pages/MyPointsList/MyPointsList';
 
 export default function App() {
   return (
@@ -10,6 +12,8 @@ export default function App() {
         <Route path="/login" element={<Authorization />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/personalAccount" element={<PersonalAccount />} />
+        <Route path='/favoriteList' element={<FavoriteList />} />
+        <Route path='/myPointsList' element={<MyPointsList />} />
       </Routes>
     </BrowserRouter>
   );
