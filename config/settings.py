@@ -21,11 +21,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.gis',
     'rest_framework',
-    'rest_framework_gis',
     'django_filters',
     'corsheaders',
+    'rest_framework_simplejwt',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -72,7 +71,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME', 'ecoplatform'),
         'USER': os.environ.get('DB_USER', 'postgres'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
@@ -110,7 +109,7 @@ SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -158,6 +157,15 @@ CORS_ALLOWED_ORIGINS = os.environ.get(
 
 YANDEX_GEOCODER_API_KEY = os.environ.get('YANDEX_GEOCODER_API_KEY', '')
 YANDEX_MAPS_API_KEY = os.environ.get('YANDEX_MAPS_API_KEY', '')
+
+DADATA_TOKEN = os.environ.get('DADATA_TOKEN', '')
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 JAZZMIN_SETTINGS = {
     'site_title': 'ЭкоПлатформа',

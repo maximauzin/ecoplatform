@@ -1,12 +1,11 @@
 from django.conf import settings
-from django.contrib.gis.db import models as gis_models
 from django.core.validators import MinValueValidator
 from django.db import models
 
 from waste_catalog.models import WasteCategory, WasteSubcategory
 
 
-class RecyclePoint(gis_models.Model):
+class RecyclePoint(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -14,7 +13,8 @@ class RecyclePoint(gis_models.Model):
     )
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
-    location = gis_models.PointField(srid=4326)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
     website = models.URLField(blank=True)
