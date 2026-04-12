@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 import arrowMore from '../assets/arrowMore.png';
+import geoPng from '../assets/geo.png';
+import clockPng from '../assets/clock.png';
+import { useState } from 'react';
+import RatingWithHeart from '../components/RatingWithHeart/RatingWithHeart';
 
 export const catalogPoints = [
     {
