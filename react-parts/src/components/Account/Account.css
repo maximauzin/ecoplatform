@@ -1,3 +1,9 @@
+.account-card {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-bottom: 55px;
+}
+
 .avatar {
     display: flex;
     margin-bottom: 69px;
@@ -11,7 +17,7 @@
     font-size: 32px;
     font-weight: 500;
     margin-top: 55px;
-    margin-right: 420px;
+    margin-right: 405px;
 }
 
 .avatar p {
@@ -37,7 +43,6 @@
     color: #ffebbb;
     font-size: 36px;
     font-weight: 500;
-    padding: 10px 350px;
-    margin-left: 120px;
+    padding: 10px 347px;
     text-decoration: none;
 }
