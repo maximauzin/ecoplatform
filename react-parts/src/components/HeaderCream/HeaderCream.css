@@ -43,3 +43,16 @@
 .personal-account {
     margin-left: 70px;
 }
+
+.btn {
+    border: solid 2px rgba(12, 58, 21, 1);
+    padding: 5px; 
+}
+
+.btn a:hover {
+    color: #ffebbb;
+}
+
+.btn:hover {
+    background-color: rgba(12, 58, 21, 1);
+}

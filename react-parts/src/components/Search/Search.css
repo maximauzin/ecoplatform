@@ -1,22 +1,29 @@
-.search-container {
+.search-wrapper {
     width: 864px;
-    box-sizing: border-box; /* Чтобы padding не ломал ширину */
+}
+
+.search-container {
     display: flex;
     align-items: center;
-    border: 2px solid rgba(35, 62, 69, 1); /* Оливковый цвет как на макете */
+    border: 2px solid rgba(35, 62, 69, 1);
+    border-radius: 8px;
+    padding: 0 16px;
     background: #fff;
-    border-radius: 4px; /* Лёгкое скругление, если нужно */
-    margin-bottom: 20px;
-    padding: 15px;
+    transition: border-color 0.2s;
     height: 67px;
-    font-size: 24px;
+}
+
+.search-container:focus-within {
+    border-color: #5a6b35;
+    box-shadow: 0 0 0 3px rgba(122, 139, 69, 0.1);
 }
 
 .search-input {
-    flex: 1; /* Занимает всё свободное место */
+    margin-top: 15px;
+    flex: 1;
     border: none;
     outline: none;
-    margin-top: 15px;
+    font-size: 24px;
     padding: 14px 0;
     background: transparent;
     color: #333;
@@ -24,25 +31,97 @@
 
 .search-input::placeholder {
     color: #888;
-    font-size: 24px;
 }
 
 .search-icons {
+    margin-top: 15px;
     display: flex;
     align-items: center;
-    gap: 20px; /* Отступ между иконками */
-    flex-shrink: 0; /* Запрещаем иконкам сжиматься */
-    margin-top: 30px;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
-.search-icons img {
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+}
+
+.icon-btn img {
     width: 24px;
     height: 24px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    object-fit: contain;
 }
 
-.search-icons img:hover {
-    opacity: 1;
+/* Фильтры по типу */
+.type-filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 32px;
 }
+
+.type-tag {
+    padding: 5px 10px;
+    border: 2px solid #E0E0E0;
+    background: #F5F5F5;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    color: #888;
+    transition: all 0.2s ease;
+}
+
+.type-tag:hover {
+    border-color: #B0B0B0;
+    background: #EEEEEE;
+}
+
+/* === АКТИВНЫЕ СОСТОЯНИЯ (после клика) === */
+
+/* Бумага */
+.type-tag.active.tag-paper {
+    background-color: #F5E6C8;
+    color: #5C4A2A;
+    border-color: #F5E6C8;
+}
+
+/* Пластик */
+.type-tag.active.tag-plastic {
+    background-color: #1E3A28;
+    color: #FFFFFF;
+    border-color: #1E3A28;
+}
+
+/* Стекло */
+.type-tag.active.tag-glass {
+    background-color: #4A1C1C;
+    color: #FFFFFF;
+    border-color: #4A1C1C;
+}
+
+/* Кнопка сброса */
+.type-reset {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #7A8B45;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.type-reset:hover { color: #5a6b35; }

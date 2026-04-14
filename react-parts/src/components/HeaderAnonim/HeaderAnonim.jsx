@@ -13,10 +13,10 @@ export default function HeaderAnonim() {
                     <li className="navigation-item-green">
                         <Link to="/QA">FAQ</Link>
                     </li>
-                    <li className="navigation-item-green">
+                    <li className="navigation-item-green btn">
                         <Link to="/login">Войти</Link>
                     </li>
-                    <li className="navigation-item-green">
+                    <li className="navigation-item-green btn">
                         <Link to="/signin">Зарегистрироваться</Link>
                     </li>
                 </ul>
