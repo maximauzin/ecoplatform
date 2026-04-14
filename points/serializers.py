@@ -103,6 +103,9 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
             )
         
         standart_address = result['result']
+        coordinates = [
+            result['geo_lat'], result['geo_lon']
+        ]
         
         # return value.strip()
         return standart_address # Стандартизированный адресс вида 
