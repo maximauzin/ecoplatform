@@ -39,7 +39,7 @@ static_collected/
 staticfiles/
 local_settings.py
 .env
-.env.*
+.env
 django_extensions/
 .DS_Store
 
