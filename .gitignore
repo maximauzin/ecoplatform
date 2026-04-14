@@ -23,9 +23,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-*_initial.py
-**/migrations/*.py
-!**/migrations/__init__.py
 **/migrations/*.pyc
 
 # Django local files
@@ -38,7 +35,6 @@ media/
 static_collected/
 staticfiles/
 local_settings.py
-.env
 .env
 django_extensions/
 .DS_Store
