@@ -21,5 +21,6 @@ urlpatterns = [
         }),
         name='point-prices-detail',
     ),
+    # path(),
     path('', include(router.urls)),
 ]
