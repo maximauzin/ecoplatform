@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 from rest_framework import serializers
+from dadata import Dadata
 
 from accounts.serializers import UserShortSerializer
 from points.models import Price, RecyclePoint
@@ -89,6 +90,12 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
         many=True,
         queryset=WasteCategory.objects.all(),
     )
+    latitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
+    longitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
 
     class Meta:
         model = RecyclePoint
@@ -104,6 +111,29 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
                 'Укажите хотя бы одну категорию отходов.'
             )
         return value
+
+    def validate(self, attrs):
+        address = attrs.get('address', '').strip()
+        if not address:
+            raise serializers.ValidationError({'address': 'Адрес не может быть пустым.'})
+
+        try:
+            with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dadata:
+                result = dadata.clean('address', address)
+        except Exception as e:
+            raise serializers.ValidationError(
+                {'address': f'Ошибка при обращении к сервису валидации адреса: {e}'}
+            )
+
+        if not result or result.get('qc') != 0:
+            raise serializers.ValidationError(
+                {'address': f'Адрес не найден или не распознан: {address}'}
+            )
+
+        attrs['address'] = result['result']
+        attrs['latitude'] = result['geo_lat']
+        attrs['longitude'] = result['geo_lon']
+        return attrs
 
     def create(self, validated_data):
         categories = validated_data.pop('waste_categories')
