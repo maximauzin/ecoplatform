@@ -166,6 +166,7 @@ YANDEX_GEOCODER_API_KEY = os.environ.get('YANDEX_GEOCODER_API_KEY', '')
 YANDEX_MAPS_API_KEY = os.environ.get('YANDEX_MAPS_API_KEY', '')
 
 DADATA_TOKEN = os.environ.get('DADATA_TOKEN', '')
+DADATA_SECRET = os.environ.get('DADATA_SECRET', '')
 
 from datetime import timedelta
 SIMPLE_JWT = {

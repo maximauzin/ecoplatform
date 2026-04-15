@@ -1,13 +1,11 @@
+from django.conf import settings
 from rest_framework import serializers
+from dadata import Dadata
 
 from accounts.serializers import UserShortSerializer
 from points.models import Price, RecyclePoint
 from waste_catalog.models import WasteCategory
 from waste_catalog.serializers import WasteCategoryListSerializer
-
-import requests
-from dadata import Dadata
-import os
 
 
 class PriceSerializer(serializers.ModelSerializer):
@@ -70,6 +68,12 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
         many=True,
         queryset=WasteCategory.objects.all(),
     )
+    latitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
+    longitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
 
     class Meta:
         model = RecyclePoint
@@ -79,40 +83,6 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
             'photo', 'waste_categories',
         )
 
-
-    def validate_address(self, value: str): #
-        if not value.strip():
-            raise serializers.ValidationError(
-                'Адрес не может быть пустым.'
-            )
-        
-        token = os.getenv('DADATA_TOKEN', '7e4ec0ff8c9f927a27f737eb1f2ec3cce8c43126')
-        secret = os.getenv('DADATA_SECRET', '42966660192050d0a7ddabc1c0dff75153858208')
-        
-        try:
-            with Dadata(token, secret) as dadata:
-                result = dadata.clean("address", value)
-        except Exception as e:
-            raise serializers.ValidationError(
-                f"Ошибка при валидации адреса {value.strip()}: {str(e)}"
-            )
-
-        if not result or result['qc'] != 0:
-            raise serializers.ValidationError(
-                f"Адрес {value.strip()} не найден."
-            )
-        
-        standart_address = result['result']
-        coordinates = [
-            result['geo_lat'], result['geo_lon']
-        ]
-        
-        # return value.strip()
-        return standart_address # Стандартизированный адресс вида 
-                                # г Москва, ул Сухонская, д 11
-            
-
-
     def validate_waste_categories(self, value):
         if not value:
             raise serializers.ValidationError(
@@ -120,6 +90,28 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
             )
         return value
 
+    def validate(self, attrs):
+        address = attrs.get('address', '').strip()
+        if not address:
+            raise serializers.ValidationError({'address': 'Адрес не может быть пустым.'})
+
+        try:
+            with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dadata:
+                result = dadata.clean('address', address)
+        except Exception as e:
+            raise serializers.ValidationError(
+                {'address': f'Ошибка при обращении к сервису валидации адреса: {e}'}
+            )
+
+        if not result or result.get('qc') != 0:
+            raise serializers.ValidationError(
+                {'address': f'Адрес не найден или не распознан: {address}'}
+            )
+
+        attrs['address'] = result['result']
+        attrs['latitude'] = result['geo_lat']
+        attrs['longitude'] = result['geo_lon']
+        return attrs
 
     def create(self, validated_data):
         categories = validated_data.pop('waste_categories')
@@ -129,7 +121,6 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
         )
         point.waste_categories.set(categories)
         return point
-
 
     def update(self, instance, validated_data):
         categories = validated_data.pop('waste_categories', None)
