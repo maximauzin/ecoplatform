@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import arrowMore from '../assets/arrowMore.png';
 import geoPng from '../assets/geo.png';
 import clockPng from '../assets/clock.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RatingWithHeart from '../components/RatingWithHeart/RatingWithHeart';
 
 export const catalogPoints = [
@@ -126,4 +126,16 @@ export function CardItem({card}) {
             </div>
         </div>
     )
+}
+
+export function effect() {
+    useEffect (() => {
+        const oldBg = document.body.style.backgroundColor;
+        
+        document.body.style.backgroundColor = 'white';
+        
+        return () => {
+            document.body.style.backgroundColor = oldBg;
+        };
+    }, []);
 }

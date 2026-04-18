@@ -1,0 +1,111 @@
+.reviews-section {
+  font-family: "Advent Pro", sans-serif;
+  font-size: 24px !important;
+}
+
+/* --- Общий рейтинг --- */
+.reviews-summary {
+  margin-bottom: 16px;
+}
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.score {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+.star-rating .star {
+  color: #F4E2B6; /* Твой золотой цвет */
+  font-size: 20px;
+}
+.star-rating .star.filled {
+  color: #F4E2B6;
+}
+/* Если хочешь, чтобы пустые звезды были серыми, раскомментируй ниже: */
+.star-rating .star:not(.filled) {
+  color: #E0E0E0;
+}
+
+/* --- Заголовок --- */
+.reviews-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  color: rgba(12, 58, 21, 1);
+}
+
+/* --- Форма добавления --- */
+.review-form-wrapper {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-area {
+  position: relative; /* Чтобы позиционировать аватар относительно этого блока */
+  margin-bottom: 12px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 12px;
+  border: 2px solid rgba(12, 58, 21, 1); /* Твой зелёный цвет рамки */
+  font-size: 24px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box; /* Важно, чтобы padding не ломал ширину */
+  resize: none;
+}
+
+textarea::placeholder {
+  color: #aaa;
+}
+
+/* Кнопка "Опубликовать" */
+.btn-publish {
+  margin-top: 8px; /* Отступ от текста, чтобы не перекрываться аватаром */
+  padding: 5px 10px;
+  background-color: #ccc; /* Серый по умолчанию */
+  color: white;
+  border: none;
+  cursor: not-allowed;
+  font-size: 24px;
+  transition: background 0.2s;
+}
+
+.btn-publish:not(:disabled) {
+  background-color: rgba(115, 127, 53, 1);
+  color: #ffebbb;
+  cursor: pointer;
+}
+
+/* --- Список отзывов --- */
+.reviews-list {
+  margin-top: 32px;
+}
+
+.review-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee; /* Разделитель (опционально) */
+  padding-bottom: 20px;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-author {
+  margin: 0 0 6px 0;
+  font-weight: 600;
+  color: #222;
+}
+
+.review-text {
+  margin: 8px 0 0 0;
+  line-height: 1.5;
+  color: #444;
+}
