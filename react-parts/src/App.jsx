@@ -6,6 +6,7 @@ import FavoriteList from './pages/FavoriteList/FavoriteList';
 import MyPointsList from './pages/MyPointsList/MyPointsList';
 import MainMap from './pages/MainMap/MainMap';
 import MainAnonim from './pages/MainAnonim/MainAnonim';
+import CardPoint from './pages/CardPoint/CardPoint';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path='/myPointsList' element={<MyPointsList />} />
         <Route path='/main' element={<MainMap />} />
         <Route path='/mainAnonim' element={<MainAnonim />} />
+        <Route path='/cardId1' element={<CardPoint />} />
       </Routes>
     </BrowserRouter>
   );
