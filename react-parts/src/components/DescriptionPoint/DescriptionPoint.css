@@ -1,0 +1,34 @@
+.description {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 23px;
+}
+
+.description h2 {
+    color: rgba(12, 58, 21, 1);
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.description p {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-family: "Inter", sans-serif;
+}
+
+.description a {
+    color: black;
+}
+
+.list {
+    list-style-type: none;
+    font-family: "Inter", sans-serif;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.description img {
+    margin-left: 88px;
+    width: 864px;
+}

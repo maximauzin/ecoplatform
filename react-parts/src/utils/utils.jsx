@@ -58,7 +58,7 @@ export const catalogPoints = [
         tags: [
             {name: "Пластик", class: "card-type-plastic"}
         ],
-        address: "Россия, Свердловская область, Екатеринбург, ул. Советская, 25",
+        address: "Россия, Свердловская область, Екатеринбург, пр-кт Ленина/ул. Гагарина, 70/18",
         hours: "Пн - Вс: 10:00 - 22:00",
         image: geoPng,
         clockImage: clockPng,
