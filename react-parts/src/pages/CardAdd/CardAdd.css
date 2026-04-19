@@ -1,0 +1,16 @@
+.card-add {
+    margin: 0 auto;
+    width: 1040px;
+    margin-bottom: 60px;
+}
+
+.card-add h2 {
+    font-size: 32px;
+    color: black;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.back-link {
+    margin-left: 105px;
+}
