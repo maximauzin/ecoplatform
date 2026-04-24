@@ -1,0 +1,17 @@
+.QA-page {
+  font-family: "Advent Pro", sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.QA-page h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: rgba(84, 16, 15, 1);
+}
+
+.qa-list {
+  margin-top: 24px;
+}
