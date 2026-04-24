@@ -16,7 +16,7 @@ export default function Authorization() {
                         <div className="input">
                             <input type="text" placeholder="Логин" />
                             <input type="password" placeholder="Пароль" />
-                            <button type="submit">Вход</button>
+                            <button type="submit" className='submit'>Вход</button>
                             <p className="logIn">Еще нет аккаунта? <Link to='/signin'>Зарегистрироваться</Link></p>
                         </div>
                     </form>

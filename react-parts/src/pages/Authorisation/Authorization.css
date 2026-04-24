@@ -64,7 +64,7 @@ input {
     margin-bottom: 20px;
 }
 
-button {
+.submit {
     background-color: rgba(115, 127, 53, 1);
     border: none;
     color: white;

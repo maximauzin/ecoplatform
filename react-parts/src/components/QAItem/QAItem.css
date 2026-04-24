@@ -1,0 +1,64 @@
+.qa-item {
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.qa-questions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  font-size: 24px;
+  transition: color 0.2s;
+  gap: 30px;
+  margin-bottom: 26px;
+}
+
+.question-text {
+  flex: 1;
+  max-width: 773px;
+  padding-right: 16px;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+  margin-left: auto;
+}
+
+.arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* УДАЛИ старые стили для .faq-answer и вставь эти */
+.qa-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.qa-answer.visibled {
+  max-height: 1000px; /* Достаточно большое значение для любого текста */
+}
+
+/* Текст появляется с небольшой задержкой, чтобы контейнер успел раскрыться */
+.qa-answer p {
+  margin: 0;
+  padding: 12px 0 20px 0;
+  font-size: 24px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: rgba(84, 16, 15, 1);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+  white-space: pre-line;
+}
+
+.qa-answer.visibled p {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -8,6 +8,7 @@ import MainMap from './pages/MainMap/MainMap';
 import MainAnonim from './pages/MainAnonim/MainAnonim';
 import CardPoint from './pages/CardPoint/CardPoint';
 import CardAdd from './pages/CardAdd/CardAdd';
+import QA from './pages/QA/QA';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/mainAnonim' element={<MainAnonim />} />
         <Route path='/cardId1' element={<CardPoint />} />
         <Route path='/add' element={<CardAdd />} />
+        <Route path='/QA' element={<QA />} />
       </Routes>
     </BrowserRouter>
   );
