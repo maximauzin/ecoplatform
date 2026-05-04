@@ -1,9 +1,33 @@
+import requests
+from django.conf import settings
 from rest_framework import serializers
+from dadata import Dadata
 
 from accounts.serializers import UserShortSerializer
 from points.models import Price, RecyclePoint
 from waste_catalog.models import WasteCategory
 from waste_catalog.serializers import WasteCategoryListSerializer
+
+
+def geocode_address(address):
+    api_key = getattr(settings, 'YANDEX_GEOCODER_API_KEY', '')
+    if not api_key:
+        return None, None
+    try:
+        response = requests.get(
+            'https://geocode-maps.yandex.ru/1.x/',
+            params={'apikey': api_key, 'geocode': address, 'format': 'json'},
+            timeout=5,
+        )
+        response.raise_for_status()
+        members = response.json()['response']['GeoObjectCollection']['featureMember']
+        if not members:
+            return None, None
+        pos = members[0]['GeoObject']['Point']['pos']
+        lng, lat = pos.split()
+        return float(lat), float(lng)
+    except Exception:
+        return None, None
 
 
 class PriceSerializer(serializers.ModelSerializer):
@@ -66,6 +90,12 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
         many=True,
         queryset=WasteCategory.objects.all(),
     )
+    latitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
+    longitude = serializers.DecimalField(
+        max_digits=9, decimal_places=6, required=False,
+    )
 
     class Meta:
         model = RecyclePoint
@@ -82,8 +112,36 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
             )
         return value
 
+    def validate(self, attrs):
+        address = attrs.get('address', '').strip()
+        if not address:
+            raise serializers.ValidationError({'address': 'Адрес не может быть пустым.'})
+
+        try:
+            with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dadata:
+                result = dadata.clean('address', address)
+        except Exception as e:
+            raise serializers.ValidationError(
+                {'address': f'Ошибка при обращении к сервису валидации адреса: {e}'}
+            )
+
+        if not result or result.get('qc') != 0:
+            raise serializers.ValidationError(
+                {'address': f'Адрес не найден или не распознан: {address}'}
+            )
+
+        attrs['address'] = result['result']
+        attrs['latitude'] = result['geo_lat']
+        attrs['longitude'] = result['geo_lon']
+        return attrs
+
     def create(self, validated_data):
         categories = validated_data.pop('waste_categories')
+        if not validated_data.get('latitude') or not validated_data.get('longitude'):
+            lat, lng = geocode_address(validated_data.get('address', ''))
+            if lat and lng:
+                validated_data['latitude'] = lat
+                validated_data['longitude'] = lng
         point = RecyclePoint.objects.create(
             owner=self.context['request'].user,
             **validated_data,

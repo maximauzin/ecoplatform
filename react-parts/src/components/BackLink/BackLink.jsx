@@ -4,7 +4,7 @@ import arrowLeftCream from '../../assets/arrowLeftCream.png';
 import { useState } from 'react';
 import './BackLink.css';
 
-export default function BackLink() {
+export default function BackLink({className}) {
     const navigate = useNavigate();
     const [isHovered, setHovered] = useState(false);
 
@@ -13,7 +13,7 @@ export default function BackLink() {
     };
 
     return (
-        <p>
+        <p className={className}>
             <button
                 type="button"
                 className="back"

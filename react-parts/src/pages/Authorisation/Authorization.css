@@ -64,7 +64,7 @@ input {
     margin-bottom: 20px;
 }
 
-button {
+.submit {
     background-color: rgba(115, 127, 53, 1);
     border: none;
     color: white;
@@ -75,6 +75,11 @@ button {
     margin-bottom: 20px;
     cursor: pointer;
     font-family: "Advent Pro", sans-serif;
+}
+
+.submit a {
+    text-decoration: none;
+    color: white;
 }
 
 .logIn {

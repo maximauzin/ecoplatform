@@ -1,35 +1,37 @@
-import { useState } from 'react';
 import './RatingWithHeart.css';
 
 export default function RatingWithHeart({ 
   rating = 5.0, 
   isFavorite = false, 
   onToggleFavorite,
-  maxStars = 5 
+  maxStars = 5,
+  showStars = true 
 }) {
   return (
     <div className="rating-with-heart">
-      <div className="stars-container">
-        {[...Array(maxStars)].map((_, index) => {
-          const starValue = index + 1;
-          const isFilled = rating >= starValue;
-          
-          return (
-            <svg
-              key={index}
-              viewBox="0 0 24 24"
-              className={`star ${isFilled ? 'star-filled' : 'star-empty'}`}
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          );
-        })}
-      </div>
+      {showStars && (
+        <>
+          <div className="stars-container">
+            {[...Array(maxStars)].map((_, index) => {
+              const starValue = index + 1;
+              const isFilled = rating >= starValue;
+              
+              return (
+                <svg
+                  key={index}
+                  viewBox="0 0 24 24"
+                  className={`star ${isFilled ? 'star-filled' : 'star-empty'}`}
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              );
+            })}
+          </div>
 
-      {/* Число рейтинга */}
-      <span className="rating-score">{rating.toFixed(1)}</span>
+          <span className="rating-score">{rating.toFixed(1)}</span>
+        </>
+      )}
 
-      {/* Сердечко */}
       <button 
         className={`heart-button ${isFavorite ? 'heart-active' : ''}`}
         onClick={onToggleFavorite}

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import arrowMore from '../assets/arrowMore.png';
 import geoPng from '../assets/geo.png';
 import clockPng from '../assets/clock.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RatingWithHeart from '../components/RatingWithHeart/RatingWithHeart';
 
 export const catalogPoints = [
@@ -58,7 +58,7 @@ export const catalogPoints = [
         tags: [
             {name: "Пластик", class: "card-type-plastic"}
         ],
-        address: "Россия, Свердловская область, Екатеринбург, ул. Советская, 25",
+        address: "Россия, Свердловская область, Екатеринбург, пр-кт Ленина/ул. Гагарина, 70/18",
         hours: "Пн - Вс: 10:00 - 22:00",
         image: geoPng,
         clockImage: clockPng,
@@ -126,4 +126,16 @@ export function CardItem({card}) {
             </div>
         </div>
     )
+}
+
+export function effect() {
+    useEffect (() => {
+        const oldBg = document.body.style.backgroundColor;
+        
+        document.body.style.backgroundColor = 'white';
+        
+        return () => {
+            document.body.style.backgroundColor = oldBg;
+        };
+    }, []);
 }

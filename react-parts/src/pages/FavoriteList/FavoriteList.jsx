@@ -1,22 +1,12 @@
 import './FavoriteList.css';
-import {Link} from 'react-router-dom';
-import { catalogPoints } from '../../utils/utils';
+import { catalogPoints, effect } from '../../utils/utils';
 import HeaderCream from '../../components/HeaderCream/HeaderCream';
-import { useEffect } from 'react';
 import BackLink from '../../components/BackLink/BackLink';
 import { CardItem } from '../../utils/utils';
 
 export default function FavoriteList() {
-    useEffect (() => {
-            const oldBg = document.body.style.backgroundColor;
-    
-            document.body.style.backgroundColor = 'white';
-    
-            return () => {
-                document.body.style.backgroundColor = oldBg;
-            };
-        }, []);
-    
+    effect();
+
     const card = catalogPoints.filter(p => p.id > 2);
     if (!card) return null;
 

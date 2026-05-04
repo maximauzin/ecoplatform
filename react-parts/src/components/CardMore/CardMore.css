@@ -1,0 +1,38 @@
+.card-more h1 {
+    color: black;
+    font-weight: 500;
+    font-size: 32px;
+    text-align: center;
+}
+
+.card-more {
+    margin: 0;
+    margin-top: -60px;
+    width: 1040px;
+}
+
+.tags {
+    display: flex;
+    margin-left: -40px;
+    justify-content: space-between;
+    margin-bottom: 23px;
+}
+
+.card-place {
+    margin-left: 0;
+    width: 695px;
+}
+
+.card-place p {
+    margin-top: 10px;
+}
+
+.card-time {
+    margin-left: 0;
+    margin-bottom: 24px;
+}
+
+.card-p {
+    font-weight: 400;
+    font-size: 20px;
+}
