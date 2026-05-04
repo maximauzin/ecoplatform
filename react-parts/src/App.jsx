@@ -20,7 +20,7 @@ export default function App() {
         <Route path='/favoriteList' element={<FavoriteList />} />
         <Route path='/myPointsList' element={<MyPointsList />} />
         <Route path='/main' element={<MainMap />} />
-        <Route path='/mainAnonim' element={<MainAnonim />} />
+        <Route path='/' element={<MainAnonim />} />
         <Route path='/cardId1' element={<CardPoint />} />
         <Route path='/add' element={<CardAdd />} />
         <Route path='/QA' element={<QA />} />

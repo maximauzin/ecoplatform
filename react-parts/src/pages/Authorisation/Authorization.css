@@ -77,6 +77,11 @@ input {
     font-family: "Advent Pro", sans-serif;
 }
 
+.submit a {
+    text-decoration: none;
+    color: white;
+}
+
 .logIn {
    font-family: "Inter", sans-serif;
    color:  rgba(151, 151, 151, 1);
