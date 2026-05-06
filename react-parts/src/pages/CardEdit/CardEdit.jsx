@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackLink from "../../components/BackLink/BackLink";
 import HeaderCream from "../../components/HeaderCream/HeaderCream";
 import Input from "../../components/Input/Input";
@@ -7,17 +7,19 @@ import { effect } from "../../utils/utils";
 import FilterTags from "../../components/FilterTags/FilterTags";
 import deleteImg from '../../assets/delete.png';
 import deleteHover from '../../assets/deleteHover.png';
-import { createPoint, suggestAddress } from '../../api/points';
+import { getPoint, updatePoint, suggestAddress } from '../../api/points';
 import { getCategories } from '../../api/waste';
-import './CardAdd.css';
+import '../CardAdd/CardAdd.css';
 
-export default function CardAdd() {
+export default function CardEdit() {
     effect();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [isHovered, setHovered] = useState(false);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [categoryMap, setCategoryMap] = useState({});
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -25,8 +27,6 @@ export default function CardAdd() {
 
     const [formData, setFormData] = useState({
         title: '',
-        promoTitle: '',
-        promoText: '',
         address: '',
         hours: '',
         price: '',
@@ -46,16 +46,32 @@ export default function CardAdd() {
     useEffect(() => {
         getCategories()
             .then(cats => {
-                const map = {};
+                const nameToId = {};
                 cats.forEach(c => { 
-                    map[c.name.toLowerCase()] = c.id; 
+                    nameToId[c.name.toLowerCase()] = c.id; 
                 });
-                setCategoryMap(map);
+                setCategoryMap(nameToId);
             })
             .catch(() => {});
     }, []);
 
-    const hasValue = Object.values(formData).some(val => val.trim() !== '') || selectedTypes.length > 0;
+    useEffect(() => {
+        if (!id) return;
+        getPoint(id)
+            .then(point => {
+                setFormData({
+                    title: point.name || '',
+                    address: point.address || '',
+                    hours: point.schedule || '',
+                    price: '',
+                    description: point.description || '',
+                });
+                const typeNames = (point.waste_categories_detail || []).map(c => c.name);
+                setSelectedTypes(typeNames);
+            })
+            .catch(() => {})
+            .finally(() => setIsLoading(false));
+    }, [id]);
 
     const handleChange = async (e) => {
         const { name, value } = e.target;
@@ -91,13 +107,6 @@ export default function CardAdd() {
         });
     };
 
-    const handleClearAll = () => {
-        setFormData({ title: '', promoTitle: '', promoText: '', address: '', hours: '', price: '', description: '' });
-        setSelectedTypes([]);
-        setSuggestions([]);
-        setShowSuggestions(false);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -121,21 +130,23 @@ export default function CardAdd() {
         data.append('address', formData.address);
         data.append('schedule', formData.hours);
         data.append('description', formData.description);
-        wasteCategoryIds.forEach(id => data.append('waste_categories', id));
+        wasteCategoryIds.forEach(wid => data.append('waste_categories', wid));
 
         try {
-            await createPoint(data);
+            await updatePoint(id, data);
             navigate('/myPointsList');
         } catch (err) {
             const errData = err.response?.data;
             if (errData) {
                 const messages = Object.values(errData).flat();
-                setError(messages[0] || 'Ошибка при создании пункта');
+                setError(messages[0] || 'Ошибка при обновлении пункта');
             } else {
-                setError('Ошибка при создании пункта');
+                setError('Ошибка при обновлении пункта');
             }
         }
     };
+
+    if (isLoading) return null;
 
     return (
         <>
@@ -156,20 +167,6 @@ export default function CardAdd() {
                     <FilterTags
                         selectedTypes={selectedTypes}
                         onToggle={toggleType}
-                    />
-
-                    <h2>Добавьте акцию или сделайте объявление (не обязательно)</h2>
-                    <Input
-                        name="promoTitle"
-                        value={formData.promoTitle}
-                        onChange={handleChange}
-                        label="Заголовок"
-                    />
-                    <Input
-                        name="promoText"
-                        value={formData.promoText}
-                        onChange={handleChange}
-                        label="Текст объявления"
                     />
 
                     <h2>Адрес</h2>
@@ -203,14 +200,6 @@ export default function CardAdd() {
                         showLabel={false}
                     />
 
-                    <h2>Цена (не обязательно)</h2>
-                    <Input
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        showLabel={false}
-                    />
-
                     <h2>Описание точки</h2>
                     <Input
                         name="description"
@@ -223,18 +212,16 @@ export default function CardAdd() {
 
                     <button type="submit" className="btn-submit">Сохранить</button>
 
-                    {hasValue && (
-                        <button
-                            type="button"
-                            className="delete"
-                            onClick={handleClearAll}
-                            onMouseEnter={() => setHovered(true)}
-                            onMouseLeave={() => setHovered(false)}
-                            aria-label="Очистить форму"
-                        >
-                            <img src={isHovered ? deleteHover : deleteImg} alt="Очистить" />
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        className="delete"
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}
+                        onClick={() => navigate(-1)}
+                        aria-label="Отмена"
+                    >
+                        <img src={isHovered ? deleteHover : deleteImg} alt="Отмена" />
+                    </button>
                 </form>
             </section>
         </>

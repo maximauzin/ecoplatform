@@ -1,16 +1,19 @@
 .search-wrapper {
     width: 864px;
+    font-family: "Advent Pro", sans-serif;
 }
 
 .search-container {
     display: flex;
     align-items: center;
     border: 2px solid rgba(35, 62, 69, 1);
-    border-radius: 8px;
+    border-radius: 0;
     padding: 0 16px;
     background: #fff;
     transition: border-color 0.2s;
     height: 67px;
+    font-family: "Advent Pro", sans-serif;
+    position: relative;
 }
 
 .search-container:focus-within {
@@ -19,14 +22,18 @@
 }
 
 .search-input {
-    margin-top: 15px;
     flex: 1;
+    align-self: center;
     border: none;
     outline: none;
     font-size: 24px;
-    padding: 14px 0;
+    padding: 8px 0;
+    margin: 0;
     background: transparent;
     color: #333;
+    height: 100%;
+    line-height: normal;
+    font-family: "Advent Pro", sans-serif;
 }
 
 .search-input::placeholder {
@@ -34,7 +41,6 @@
 }
 
 .search-icons {
-    margin-top: 15px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -61,6 +67,38 @@
     width: 24px;
     height: 24px;
     object-fit: contain;
+    margin: 0 !important; /* Обнуляем любые внешние отступы */
+}
+
+/* Suggestions Dropdown */
+.suggestions-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+    background: #f5f5f5;
+    color: #7A8B45;
 }
 
 /* Фильтры по типу */
@@ -69,6 +107,7 @@
     gap: 12px;
     flex-wrap: wrap;
     align-items: center;
+    margin-top: 16px;
     margin-bottom: 32px;
 }
 
@@ -82,6 +121,7 @@
     font-weight: 500;
     color: #888;
     transition: all 0.2s ease;
+    font-family: "Advent Pro", sans-serif;
 }
 
 .type-tag:hover {
@@ -123,5 +163,6 @@
     font-weight: 600;
     text-decoration: none;
     transition: color 0.2s;
+    font-family: "Advent Pro", sans-serif;
 }
 .type-reset:hover { color: #5a6b35; }

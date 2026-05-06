@@ -1,100 +1,69 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Link } from 'react-router-dom';
 import arrowMore from '../assets/arrowMore.png';
 import geoPng from '../assets/geo.png';
 import clockPng from '../assets/clock.png';
 import { useState, useEffect } from 'react';
 import RatingWithHeart from '../components/RatingWithHeart/RatingWithHeart';
+import { toggleFavorite } from '../api/favorites';
+import './CardItem.css';
 
-export const catalogPoints = [
-    {
-        id: 1,
-        title: "Пункт умной переработки",
-        rating: 5.0,
-        tags: [
-            { name: "Бумага", class: "card-type-paper" },
-            { name: "Пластик", class: "card-type-plastic" },
-            { name: "Стекло", class: "card-type-glass" }
-        ],
-        address: "Россия, Свердловская область, Екатеринбург, посёлок Большой Шарташский Каменный Карьер, 8",
-        hours: "Пн - Вс: 11:00 - 20:00",
-        image: geoPng,
-        clockImage: clockPng,
-        action: false,
-        price: "9р/кг",
-    },
-    {
-        id: 2,
-        title: "Ярмарка редких вещей 'Полочки'",
-        rating: 4.2,
-        tags: [
-            { name: "Бумага", class: "card-type-paper" }
-        ],
-        address: "Россия, Свердловская область, Екатеринбург, проспект Ленина, 101",
-        hours: "Пн - Вс: 11:00 - 20:00",
-        image: geoPng,
-        clockImage: clockPng,
-        action: false,
-        price: "8р/кг",
-    },
-    {
-        id: 3,
-        title: "Эко-центр Зелёный'",
-        rating: 3.5,
-        tags: [
-            { name: "Пластик", class: "card-type-plastic" },
-            { name: "Стекло", class: "card-type-glass" }
-        ],
-        address: "Екатеринбург, ул. Экологическая, 25",
-        hours: "Пн-Пт: 09:00 - 18:00",
-        image: geoPng,
-        clockImage: clockPng,
-        action: false,
-        price: "5р/кг",
-    },
-    {
-        id: 4,
-        title: "Контейнер La Roche-Posay для упаковки от косметики в пункте выдачи Lamoda",
-        rating: 4.8,
-        tags: [
-            {name: "Пластик", class: "card-type-plastic"}
-        ],
-        address: "Россия, Свердловская область, Екатеринбург, пр-кт Ленина/ул. Гагарина, 70/18",
-        hours: "Пн - Вс: 10:00 - 22:00",
-        image: geoPng,
-        clockImage: clockPng,
-        action: false,
-        price: "7р/кг",
-    },
-    {
-        id: 5,
-        title: "Сбор макулатуры в помощь бездомным животным",
-        rating: 5.0,
-        tags: [
-            {name: "Бумага", class: "card-type-paper"}
-        ],
-        address: "Россия, Свердловская область, Екатеринбург, метро 'Площадь 1905 года'",
-        hours: "Пн - Вс: 12:00 - 17:00",
-        image: geoPng,
-        clockImage: clockPng,
-        action: true,
-        price: "6р/кг",
-    }
-];
+const NAME_TO_CLASS = {
+    'Бумага': 'card-type-paper',
+    'Пластик': 'card-type-plastic',
+    'Стекло': 'card-type-glass',
+    'Металл': 'card-type-metal',
+    'paper': 'card-type-paper',
+    'plastic': 'card-type-plastic',
+    'glass': 'card-type-glass',
+    'metal': 'card-type-metal',
+};
 
-export function CardItem({card}) {
-    const [isLiked, setIsLiked] = useState(true);
+export function normalizePoint(point, categoryMap = {}) {
+    return {
+        id: point.id,
+        title: point.name,
+        rating: parseFloat(point.average_rating) || 0,
+        tags: (point.waste_categories || []).map(id => {
+            const cat = categoryMap[id];
+            if (!cat) return null;
+            return { name: cat.name, class: NAME_TO_CLASS[cat.name] || 'card-type-default' };
+        }).filter(Boolean),
+        address: point.address || '',
+        hours: point.schedule || '',
+        image: geoPng,
+        clockImage: clockPng,
+        is_favorite: point.is_favorite || false,
+        owner_id: point.owner_id,
+        photo: point.photo,
+        latitude: point.latitude,
+        longitude: point.longitude,
+    };
+}
 
-    const toggleLike = () => setIsLiked(prev => !prev);
+export const catalogPoints = [];
+
+export function CardItem({ card }) {
+    const [isLiked, setIsLiked] = useState(card.is_favorite ?? false);
+
+    const handleToggle = async () => {
+        const prev = isLiked;
+        setIsLiked(!prev);
+        try {
+            await toggleFavorite(card.id, prev);
+        } catch {
+            setIsLiked(prev);
+        }
+    };
 
     return (
         <div className="card">
             <div className="card-name">
                 <p className="card-title">{card.title}</p>
-                            
                 <RatingWithHeart
                     rating={card.rating}
                     isFavorite={isLiked}
-                    onToggleFavorite={toggleLike}
+                    onToggleFavorite={handleToggle}
                 />
             </div>
 
@@ -118,24 +87,27 @@ export function CardItem({card}) {
                     </div>
                 </div>
                 <div className="more">
-                    <Link to="/cardId1">
+                    <Link to={`/card/${card.id}`}>
                         <p>Смотреть больше</p>
                         <img src={arrowMore} alt="ещё" />
                     </Link>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export function effect() {
-    useEffect (() => {
+export function useWhiteBackground() {
+    useEffect(() => {
         const oldBg = document.body.style.backgroundColor;
-        
         document.body.style.backgroundColor = 'white';
-        
         return () => {
             document.body.style.backgroundColor = oldBg;
         };
     }, []);
+}
+
+export function effect() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useWhiteBackground();
 }

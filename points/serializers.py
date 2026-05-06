@@ -50,12 +50,14 @@ class RecyclePointListSerializer(serializers.ModelSerializer):
     waste_categories = serializers.PrimaryKeyRelatedField(
         many=True, read_only=True,
     )
+    owner_id = serializers.IntegerField(source='owner.id', read_only=True)
 
     class Meta:
         model = RecyclePoint
         fields = (
             'id', 'name', 'address', 'latitude', 'longitude',
             'average_rating', 'reviews_count', 'waste_categories',
+            'schedule', 'photo', 'owner_id',
         )
 
 
@@ -117,22 +119,18 @@ class RecyclePointCreateSerializer(serializers.ModelSerializer):
         if not address:
             raise serializers.ValidationError({'address': 'Адрес не может быть пустым.'})
 
-        try:
-            with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dadata:
-                result = dadata.clean('address', address)
-        except Exception as e:
-            raise serializers.ValidationError(
-                {'address': f'Ошибка при обращении к сервису валидации адреса: {e}'}
-            )
+        token = getattr(settings, 'DADATA_TOKEN', '')
+        if token:
+            try:
+                with Dadata(token, getattr(settings, 'DADATA_SECRET', '')) as dadata:
+                    result = dadata.clean('address', address)
+                if result and result.get('qc') == 0:
+                    attrs['address'] = result['result']
+                    attrs['latitude'] = result['geo_lat']
+                    attrs['longitude'] = result['geo_lon']
+            except Exception:
+                pass
 
-        if not result or result.get('qc') != 0:
-            raise serializers.ValidationError(
-                {'address': f'Адрес не найден или не распознан: {address}'}
-            )
-
-        attrs['address'] = result['result']
-        attrs['latitude'] = result['geo_lat']
-        attrs['longitude'] = result['geo_lon']
         return attrs
 
     def create(self, validated_data):

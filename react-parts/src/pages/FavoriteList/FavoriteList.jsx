@@ -1,14 +1,34 @@
+import { useState, useEffect } from 'react';
 import './FavoriteList.css';
-import { catalogPoints, effect } from '../../utils/utils';
+import { effect, normalizePoint, CardItem } from '../../utils/utils';
 import HeaderCream from '../../components/HeaderCream/HeaderCream';
 import BackLink from '../../components/BackLink/BackLink';
-import { CardItem } from '../../utils/utils';
+import { getFavorites } from '../../api/favorites';
+import { getCategories } from '../../api/waste';
 
 export default function FavoriteList() {
     effect();
+    const [cards, setCards] = useState([]);
+    const [categoryMap, setCategoryMap] = useState({});
 
-    const card = catalogPoints.filter(p => p.id > 2);
-    if (!card) return null;
+    useEffect(() => {
+        getCategories()
+            .then(cats => {
+                const map = {};
+                cats.forEach(c => { map[c.id] = c; });
+                setCategoryMap(map);
+            })
+            .catch(() => {});
+    }, []);
+
+    useEffect(() => {
+        getFavorites()
+            .then(data => {
+                const normalized = data.map(fav => normalizePoint(fav.point_detail || {}, categoryMap));
+                setCards(normalized.filter(c => c.id));
+            })
+            .catch(() => {});
+    }, [categoryMap]);
 
     return (
         <>
@@ -16,10 +36,8 @@ export default function FavoriteList() {
             <section className="favorite-page">
                 <BackLink />
                 <div className="favorite">
-                    <h3>
-                            Избранное
-                    </h3>
-                    {card.map(card => (
+                    <h3>Избранное</h3>
+                    {cards.map(card => (
                         <CardItem key={card.id} card={card} />
                     ))}
                 </div>
@@ -27,6 +45,3 @@ export default function FavoriteList() {
         </>
     );
 }
-
-
-

@@ -12,6 +12,7 @@ class FavoriteListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         return Favorite.objects.filter(
             user=self.request.user,
+            point__is_active=True
         ).select_related('point')
 
     def perform_create(self, serializer):

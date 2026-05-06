@@ -164,6 +164,8 @@ CORS_ALLOWED_ORIGINS = os.environ.get(
 
 YANDEX_GEOCODER_API_KEY = os.environ.get('YANDEX_GEOCODER_API_KEY', '')
 YANDEX_MAPS_API_KEY = os.environ.get('YANDEX_MAPS_API_KEY', '')
+YANDEX_VISION_API_KEY = os.environ.get('YANDEX_VISION_API_KEY', '')
+YANDEX_FOLDER_ID = os.environ.get('YANDEX_FOLDER_ID', '')
 
 DADATA_TOKEN = os.environ.get('DADATA_TOKEN', '')
 DADATA_SECRET = os.environ.get('DADATA_SECRET', '')

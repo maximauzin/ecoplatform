@@ -1,36 +1,79 @@
 .account-card {
+    font-family: "Advent Pro", sans-serif;
     max-width: 900px;
     margin: 0 auto;
     margin-bottom: 55px;
 }
 
-.avatar {
-    display: flex;
-    margin-bottom: 69px;
+.account {
+    margin: 0;
 }
 
-.avatar img {
-    margin-right: 19px;
+.account > a, 
+.account > .back-link-wrapper {
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.avatar-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.avatar-wrapper img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px 0 0 0;
+    pointer-events: none;
 }
 
 .name {
     font-size: 32px;
     font-weight: 500;
-    margin-top: 55px;
-    margin-right: 405px;
+    margin: 0;
+    color: #000;
 }
 
-.avatar p {
-    margin-top: 55px;
+.exit-container {
+    margin-left: auto;
 }
 
 .exit {
+    display: inline-block;
+    cursor: pointer;
     color: rgba(84, 16, 15, 1);
     border: solid 2px rgba(84, 16, 15, 1);
-    padding: 5px 10px;
+    padding: 5px 20px;
     text-decoration: none;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .exit:hover {
@@ -38,11 +81,24 @@
     color: #ffebbb;
 }
 
+.add-container {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
 .add {
+    display: block;
+    text-align: center;
+    cursor: pointer;
     background-color: rgba(115, 127, 53, 1);
     color: #ffebbb;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 500;
-    padding: 10px 347px;
+    padding: 12px 20px;
     text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.add:hover {
+    background-color: rgba(84, 16, 15, 1);
 }

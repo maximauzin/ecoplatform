@@ -3,6 +3,8 @@
     max-width: 864px;
 }
 
-.main-page img {
+/* Отступ только для основных элементов страницы, не затрагивая иконки внутри компонентов */
+.main-page > img,
+.main-page > .yandex-map-container {
     margin-bottom: 32px;
 }

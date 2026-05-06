@@ -29,6 +29,10 @@
   color: #E0E0E0;
 }
 
+.star-rating.interactive {
+  margin-bottom: 24px !important;
+}
+
 /* --- Заголовок --- */
 .reviews-title {
   font-size: 24px;

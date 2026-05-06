@@ -12,12 +12,17 @@
     margin-bottom: 55px;
 }
 
+.my-point-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
 .card {
     border: solid 2px rgba(35, 62, 69, 1);
     padding: 12px 21px;
     margin-bottom: 32px;
+    width: 864px;
 }
-
 
 h3 {
     font-size: 40px;
@@ -122,23 +127,32 @@ h3 {
 
 .delete {
     background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .card-edit {
-    margin-top: 140px;
+    margin-top: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-left: 20px;
 }
 
-.card-edit a {
+.card-edit .edit-link {
     border: solid 2px rgba(84, 16, 15, 1);
-    padding: 5px;
+    padding: 5px 15px;
     text-decoration: none;
     color:rgba(84, 16, 15, 1);
     font-size: 24px;
     font-weight: 500;
-    margin-left: 20px;
+    white-space: nowrap;
+    display: inline-block;
 }
 
-.card-edit a:hover {
+.card-edit .edit-link:hover {
     background-color: rgba(84, 16, 15, 1);
     border: solid 2px rgba(255, 235, 187, 1);
     color:rgba(255, 235, 187, 1);

@@ -14,6 +14,7 @@ export default function FilterTags({ selectedTypes = [], onToggle }) {
         return (
           <button
             key={tag.name}
+            type="button"
             className={`filter-btn ${tag.activeClass} ${isActive ? 'active' : ''}`}
             onClick={() => onToggle(tag.name)}
           >

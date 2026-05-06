@@ -1,0 +1,57 @@
+/* Стили для выравнивания содержимого внутри компактной карточки */
+.card .card-title,
+.card .card-type-item,
+.card .card-place,
+.card .card-time {
+    margin-left: 48px;
+}
+
+/* Базовые стили для карточки */
+.card {
+    border: solid 2px rgba(35, 62, 69, 1);
+    padding: 12px 21px;
+    margin-bottom: 32px;
+}
+
+.card-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-type-item {
+    margin: 0;
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    margin-left: 48px;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.card-place {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card-time {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 79px;
+}
+
+.card-time-work {
+    display: flex;
+    gap: 10px;
+}
+
+.card-p p {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.more a {
+    font-size: 24px;
+    color: rgba(115, 127, 53, 1);
+    text-decoration: none;
+}

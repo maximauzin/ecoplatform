@@ -20,10 +20,11 @@ class RecyclePointFilter(filters.FilterSet):
     lat = filters.NumberFilter(method='filter_geo')
     lng = filters.NumberFilter(method='filter_geo')
     radius = filters.NumberFilter(method='filter_geo')
+    owner = filters.NumberFilter(field_name='owner__id')
 
     class Meta:
         model = RecyclePoint
-        fields = ['categories', 'min_rating', 'lat', 'lng', 'radius']
+        fields = ['categories', 'min_rating', 'lat', 'lng', 'radius', 'owner']
 
     def filter_categories(self, queryset, name, value):
         ids = [int(i) for i in value.split(',') if i.strip().isdigit()]

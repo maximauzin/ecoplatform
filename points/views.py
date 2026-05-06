@@ -1,5 +1,9 @@
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from django.conf import settings
+from dadata import Dadata
 
 from accounts.permissions import IsOwnerRole, IsPointOwner
 from points.filters import RecyclePointFilter
@@ -40,7 +44,32 @@ class RecyclePointViewSet(viewsets.ModelViewSet):
             return [permissions.IsAuthenticated(), IsOwnerRole()]
         if self.action in ('update', 'partial_update', 'destroy'):
             return [permissions.IsAuthenticated(), IsPointOwner()]
+        if self.action == 'suggest_address':
+            return [permissions.AllowAny()]
         return [permissions.AllowAny()]
+
+    @action(detail=False, methods=['get'], url_path='suggest-address')
+    def suggest_address(self, request):
+        query = request.query_params.get('query', '')
+        if not query:
+            return Response([])
+
+        token = getattr(settings, 'DADATA_TOKEN', '')
+        if not token:
+            return Response(
+                {'error': 'DaData token is not configured'},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
+
+        try:
+            with Dadata(token, getattr(settings, 'DADATA_SECRET', '')) as dadata:
+                result = dadata.suggest('address', query)
+            return Response(result)
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def perform_destroy(self, instance):
         instance.is_active = False

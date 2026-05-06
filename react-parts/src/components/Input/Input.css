@@ -3,10 +3,14 @@ label {
     font-weight: 500;
     color: black;
     margin-top: 20px;
+    font-family: "Advent Pro", sans-serif;
 }
 
 .input-add {
     width: 100%;
-    border-color: rgba(35, 62, 69, 1);
-    margin-bottom: 45px;
+    border: 2px solid rgba(35, 62, 69, 1);
+    margin-bottom: 30px;
+    font-size: 20px;
+    padding: 10px;
+    font-family: "Advent Pro", sans-serif;
 }

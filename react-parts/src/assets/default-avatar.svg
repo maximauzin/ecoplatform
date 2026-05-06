@@ -1,0 +1,10 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Минималистичный фон -->
+  <rect width="200" height="200" rx="100" fill="#F4E2B6" fill-opacity="0.3"/>
+  <circle cx="100" cy="100" r="90" stroke="#737F35" stroke-width="2" stroke-dasharray="4 4"/>
+  
+  <!-- Иконка фотоаппарата -->
+  <path d="M60 80C60 74.4772 64.4772 70 70 70H85L92 60H108L115 70H130C135.523 70 140 74.4772 140 80V130C140 135.523 135.523 140 130 140H70C64.4772 140 60 135.523 60 130V80Z" fill="#737F35"/>
+  <circle cx="100" cy="105" r="20" stroke="#F4E2B6" stroke-width="4"/>
+  <rect x="120" y="78" width="10" height="6" rx="1" fill="#F4E2B6"/>
+</svg>

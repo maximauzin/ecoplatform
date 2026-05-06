@@ -3,17 +3,19 @@
   gap: 12px;
   flex-wrap: wrap;
   margin: 0;
+  font-family: "Advent Pro", sans-serif;
 }
 
 .filter-btn {
-  padding: 5px 10px;
+  padding: 5px 15px;
   border: none;
-  border-radius: 3px; /* Лёгкое скругление как на макете */
+  border-radius: 4px;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   line-height: 1.4;
+  font-family: "Advent Pro", sans-serif;
   
   /* Неактивное состояние */
   background-color: #E8E8E8;

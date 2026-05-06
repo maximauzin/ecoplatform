@@ -1,20 +1,54 @@
+import { useState, useEffect } from 'react';
 import './MyPointsList.css';
-import {Link} from 'react-router-dom';
-import { catalogPoints, effect, CardItem } from '../../utils/utils';
-import {useState} from 'react';
+import { effect, normalizePoint, CardItem } from '../../utils/utils';
 import HeaderCream from '../../components/HeaderCream/HeaderCream';
 import BackLink from '../../components/BackLink/BackLink';
 import deleteImg from '../../assets/delete.png';
 import deleteHover from '../../assets/deleteHover.png';
+import { getPoints, deletePoint } from '../../api/points';
+import { getCategories } from '../../api/waste';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-
-export default function FavoriteCard() {
+export default function MyPointsList() {
     effect();
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const [cards, setCards] = useState([]);
+    const [categoryMap, setCategoryMap] = useState({});
+    const [hoveredId, setHoveredId] = useState(null);
 
-    const card = catalogPoints.filter(p => p.id === 2);
-    if (!card) return null;
+    useEffect(() => {
+        getCategories()
+            .then(cats => {
+                const map = {};
+                cats.forEach(c => { map[c.id] = c; });
+                setCategoryMap(map);
+            })
+            .catch(() => {});
+    }, []);
 
-    const [isHovered, setHovered] = useState(false);
+    useEffect(() => {
+        if (!user) return;
+        getPoints({ owner: user.id })
+            .then(data => {
+                const normalized = data.map(p => normalizePoint(p, categoryMap));
+                setCards(normalized);
+            })
+            .catch(() => {});
+    }, [user, categoryMap]);
+
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm("Вы уверены, что хотите удалить этот пункт? Он перестанет отображаться на карте.");
+        if (!confirmed) return;
+
+        try {
+            await deletePoint(id);
+            setCards(prev => prev.filter(c => c.id !== id));
+        } catch {
+            // ignore
+        }
+    };
 
     return (
         <>
@@ -22,18 +56,27 @@ export default function FavoriteCard() {
         <section className="my-points-page">
             <BackLink />
             <div className="my-points">
-                <h3>
-                    Moи пункты
-                </h3>
-                {card.map(card => (
-                    <CardItem key={card.id} card={card} />
+                <h3>Мои пункты</h3>
+                {cards.map(card => (
+                    <div key={card.id} className="my-point-wrapper">
+                        <CardItem card={card} />
+                        <div className="card-edit">
+                            <span
+                                className="edit-link"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => navigate(`/cardEdit/${card.id}`)}
+                            >Редактировать</span>
+                            <button
+                                className='delete'
+                                onMouseEnter={() => setHoveredId(card.id)}
+                                onMouseLeave={() => setHoveredId(null)}
+                                onClick={() => handleDelete(card.id)}
+                            >
+                                <img src={hoveredId === card.id ? deleteHover : deleteImg} alt="Удалить" />
+                            </button>
+                        </div>
+                    </div>
                 ))}
-            </div>
-            <div className="card-edit">
-                <Link to="/cardEdit" >Редактировать</Link>
-                <button className='delete'
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}><img src={isHovered ? deleteHover : deleteImg} /></button>
             </div>
         </section>
         </>
