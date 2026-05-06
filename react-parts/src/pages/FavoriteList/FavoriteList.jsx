@@ -30,6 +30,12 @@ export default function FavoriteList() {
             .catch(() => {});
     }, [categoryMap]);
 
+    const handleToggle = (id, isFavorite) => {
+        if (!isFavorite) {
+            setCards(prev => prev.filter(c => c.id !== id));
+        }
+    };
+
     return (
         <>
             <HeaderCream />
@@ -37,9 +43,13 @@ export default function FavoriteList() {
                 <BackLink />
                 <div className="favorite">
                     <h3>Избранное</h3>
-                    {cards.map(card => (
-                        <CardItem key={card.id} card={card} />
-                    ))}
+                    {cards.length > 0 ? (
+                        cards.map(card => (
+                            <CardItem key={card.id} card={card} onToggle={handleToggle} />
+                        ))
+                    ) : (
+                        <p style={{ textAlign: 'center', marginTop: '20px' }}>У вас пока нет избранных пунктов</p>
+                    )}
                 </div>
             </section>
         </>

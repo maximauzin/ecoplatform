@@ -14,6 +14,7 @@ from points.serializers import (
     RecyclePointDetailSerializer,
     RecyclePointListSerializer,
 )
+from favorites.models import Favorite
 
 
 class PointMapPagination(PageNumberPagination):
@@ -44,9 +45,20 @@ class RecyclePointViewSet(viewsets.ModelViewSet):
             return [permissions.IsAuthenticated(), IsOwnerRole()]
         if self.action in ('update', 'partial_update', 'destroy'):
             return [permissions.IsAuthenticated(), IsPointOwner()]
-        if self.action == 'suggest_address':
+        if self.action in ('suggest_address', 'toggle_favorite'):
             return [permissions.AllowAny()]
         return [permissions.AllowAny()]
+
+    @action(detail=True, methods=['post'], url_path='toggle-favorite', permission_classes=[permissions.IsAuthenticated])
+    def toggle_favorite(self, request, pk=None):
+        point = self.get_object()
+        favorite, created = Favorite.objects.get_or_create(user=request.user, point=point)
+        
+        if not created:
+            favorite.delete()
+            return Response({'is_favorite': False}, status=status.HTTP_200_OK)
+        
+        return Response({'is_favorite': True}, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'], url_path='suggest-address')
     def suggest_address(self, request):

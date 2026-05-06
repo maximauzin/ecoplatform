@@ -43,16 +43,16 @@ export function normalizePoint(point, categoryMap = {}) {
 
 export const catalogPoints = [];
 
-export function CardItem({ card }) {
+export function CardItem({ card, onToggle }) {
     const [isLiked, setIsLiked] = useState(card.is_favorite ?? false);
 
     const handleToggle = async () => {
-        const prev = isLiked;
-        setIsLiked(!prev);
         try {
-            await toggleFavorite(card.id, prev);
-        } catch {
-            setIsLiked(prev);
+            const isNowFavorite = await toggleFavorite(card.id);
+            setIsLiked(isNowFavorite);
+            if (onToggle) onToggle(card.id, isNowFavorite);
+        } catch (error) {
+            console.error('Failed to toggle favorite:', error);
         }
     };
 

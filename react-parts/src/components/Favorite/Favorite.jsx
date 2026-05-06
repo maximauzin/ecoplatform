@@ -6,13 +6,12 @@ import arrowMore from '../../assets/arrowMore.png';
 import geoPng from '../../assets/geo.png';
 import clockPng from '../../assets/clock.png';
 import RatingWithHeart from '../RatingWithHeart/RatingWithHeart';
-import { getFavorites } from '../../api/favorites';
+import { getFavorites, toggleFavorite } from '../../api/favorites';
 import { getCategories } from '../../api/waste';
 import { normalizePoint } from '../../utils/utils';
 
 export default function FavoriteCard() {
     const [card, setCard] = useState(null);
-    const [isLiked, setIsLiked] = useState(true);
     const [categoryMap, setCategoryMap] = useState({});
 
     useEffect(() => {
@@ -25,16 +24,37 @@ export default function FavoriteCard() {
             .catch(() => {});
     }, []);
 
-    useEffect(() => {
+    const fetchFirstFavorite = () => {
         getFavorites()
             .then(data => {
                 if (data.length > 0) {
                     const norm = normalizePoint(data[0].point_detail || {}, categoryMap);
                     if (norm.id) setCard(norm);
+                } else {
+                    setCard(null);
                 }
             })
             .catch(() => {});
+    };
+
+    useEffect(() => {
+        if (Object.keys(categoryMap).length > 0) {
+            fetchFirstFavorite();
+        }
     }, [categoryMap]);
+
+    const handleToggleFavorite = async () => {
+        if (!card) return;
+        try {
+            const isNowFavorite = await toggleFavorite(card.id);
+            if (!isNowFavorite) {
+                // Если убрали из избранного, загружаем следующую карточку или скрываем текущую
+                fetchFirstFavorite();
+            }
+        } catch (error) {
+            console.error('Failed to toggle favorite:', error);
+        }
+    };
 
     return (
         <section className="favorite">
@@ -44,14 +64,14 @@ export default function FavoriteCard() {
                 </Link>
             </h3>
 
-            {card && (
+            {card ? (
                 <div className="card">
                     <div className="card-name">
                         <p className="card-title">{card.title}</p>
                         <RatingWithHeart
                             rating={card.rating}
-                            isFavorite={isLiked}
-                            onToggleFavorite={() => setIsLiked(p => !p)}
+                            isFavorite={true}
+                            onToggleFavorite={handleToggleFavorite}
                         />
                     </div>
 

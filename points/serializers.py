@@ -51,14 +51,21 @@ class RecyclePointListSerializer(serializers.ModelSerializer):
         many=True, read_only=True,
     )
     owner_id = serializers.IntegerField(source='owner.id', read_only=True)
+    is_favorite = serializers.SerializerMethodField()
 
     class Meta:
         model = RecyclePoint
         fields = (
             'id', 'name', 'address', 'latitude', 'longitude',
             'average_rating', 'reviews_count', 'waste_categories',
-            'schedule', 'photo', 'owner_id',
+            'schedule', 'photo', 'owner_id', 'is_favorite',
         )
+
+    def get_is_favorite(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return obj.favorites.filter(user=request.user).exists()
+        return False
 
 
 class RecyclePointDetailSerializer(serializers.ModelSerializer):

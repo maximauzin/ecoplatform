@@ -14,13 +14,7 @@ export async function removeFavoriteById(favoriteId) {
     await client.delete(`/favorites/${favoriteId}/`);
 }
 
-export async function toggleFavorite(pointId, isCurrentlyFavorited) {
-    if (!isCurrentlyFavorited) {
-        return addFavorite(pointId);
-    }
-    const favorites = await getFavorites();
-    const fav = favorites.find(f => f.point === pointId || f.point_detail?.id === pointId);
-    if (fav) {
-        await removeFavoriteById(fav.id);
-    }
+export async function toggleFavorite(pointId) {
+    const { data } = await client.post(`/points/${pointId}/toggle-favorite/`);
+    return data.is_favorite;
 }
