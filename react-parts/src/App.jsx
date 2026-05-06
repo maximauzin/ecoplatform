@@ -23,6 +23,7 @@ export default function App() {
           <Route path='/favoriteList' element={<FavoriteList />} />
           <Route path='/myPointsList' element={<MyPointsList />} />
           <Route path='/main' element={<MainMap />} />
+          <Route path='/' element={<MainAnonim />} />
           <Route path='/mainAnonim' element={<MainAnonim />} />
           <Route path='/card/:id' element={<CardPoint />} />
           <Route path='/cardId1' element={<CardPoint />} />
